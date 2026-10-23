@@ -1,0 +1,9 @@
+*.elc
+*.o
+*.so
+*.a
+*_dats.c
+dynload_stub.c
+neurod
+neuroasm-test
+*~
