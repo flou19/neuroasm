@@ -325,7 +325,7 @@
       (#x36 (setf (neuro-cpu-seg-prefix cpu) (neuro-regs-ss r)))
       (#x3E (setf (neuro-cpu-seg-prefix cpu) (neuro-regs-ds r))))))
 
-(defvar neuro-cpu--idt nil
+(defvar neuro-cpu--idt nil)
 
 (defun neuro-cpu--idt-init ()
   (setq neuro-cpu--idt (make-vector 256 nil))
