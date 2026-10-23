@@ -147,6 +147,7 @@ typedef enum {
     NEURO_ERR_HALTED,
     NEURO_ERR_KERNEL_PROTECTED,
     NEURO_ERR_SANDBOX,
+    NEURO_ERR_DIV_OVERFLOW,
 } NeuroErr;
 
 extern void     cpu_init(Cpu8086 *cpu);
