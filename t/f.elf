@@ -1,0 +1,28 @@
+path : type.
+p/nil : path.
+p/cons : nat -> path -> path.
+threat : type.
+th/mk : nat -> threat.
+inc : threat -> nat -> threat -> type.
+inc/ok : add T D T' -> inc (th/mk T) D (th/mk T').
+dec : threat -> nat -> threat -> type.
+dec/ok : sub T D T' -> dec (th/mk T) D (th/mk T').
+pressure : threat -> nat -> type.
+pressure/ok : pressure (th/mk T) T.
+su : type.
+su/sleep : su.
+su/hunt : pos -> pos -> su.
+wake : threat -> su -> su -> type.
+wake/y : le (s (s (s z))) T -> wake (th/mk T) su/sleep (su/hunt A B).
+wake/n : lt T (s (s (s z))) -> wake (th/mk T) su/sleep su/sleep.
+wake/k : wake T (su/hunt A B) (su/hunt A B).
+frag : type.
+fg/nil : frag.
+fg/cons : nat -> frag -> frag.
+fcnt : frag -> nat -> type.
+fcnt/z : fcnt fg/nil z.
+fcnt/s : fcnt F N -> fcnt (fg/cons I F) (s N).
+collect : nat -> frag -> frag -> type.
+collect/h : collect I (fg/cons I F) (fg/cons I F).
+collect/n : collect I F F' -> collect I (fg/cons J F) (fg/cons J F').
+collect/a : collect I fg/nil (fg/cons I fg/nil).

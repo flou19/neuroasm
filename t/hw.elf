@@ -1,0 +1,29 @@
+dev : type.
+dv/timer : dev.
+dv/kbd : dev.
+dv/nn : dev.
+dv/rng : dev.
+port : type.
+pt/mk : nat -> port.
+pmap : type.
+pm/nil : pmap.
+pm/c : port -> nat -> pmap -> pmap.
+inb : port -> pmap -> nat -> type.
+inb/h : inb (pt/mk P) (pm/c (pt/mk P) V R) V.
+inb/t : inb (pt/mk P) R V -> inb (pt/mk P) (pm/c (pt/mk Q) W R) V.
+outb : port -> nat -> pmap -> pmap -> type.
+outb/h : outb (pt/mk P) V (pm/c (pt/mk P) W R) (pm/c (pt/mk P) V R).
+outb/t : outb (pt/mk P) V R R' -> outb (pt/mk P) V (pm/c (pt/mk Q) W R) (pm/c (pt/mk Q) W R').
+tick : nat -> nat -> type.
+tick/ok : add T (s z) T' -> tick T T'.
+rng : nat -> nat -> type.
+rng/ok : mul S (s (s (s (s (s (s (s (s (s (s z)))))))))) N0 ->
+  add N0 (s (s (s (s (s (s (s z))))))) N1 -> rng S N1.
+irq : type.
+iq/timer : irq.
+iq/kbd : irq.
+iq/nn : irq.
+vector : irq -> nat -> type.
+vector/timer : vector iq/timer z.
+vector/kbd : vector iq/kbd (s z).
+vector/nn : vector iq/nn (s (s z)).

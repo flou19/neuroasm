@@ -1,0 +1,20 @@
+req : type.
+rq/ping : req.
+rq/step : req.
+rq/run : nat -> req.
+rq/cy : req.
+rq/hlt : req.
+rq/rst : req.
+rep : type.
+rp/pong : rep.
+rp/ok : nat -> rep.
+rp/cy : nat -> rep.
+rp/hlt : nat -> rep.
+exec : req -> cpu -> rep -> cpu -> type.
+exec/ping : exec rq/ping C rp/pong C.
+exec/step : step1 C C' -> cycles C' N -> exec rq/step C (rp/ok N) C'.
+exec/run : run F C C' -> cycles C' N -> exec (rq/run F) C (rp/ok N) C'.
+exec/cy : cycles C N -> exec rq/cy C (rp/cy N) C.
+exec/hlt/y : halted C -> exec rq/hlt C (rp/hlt (s z)) C.
+exec/hlt/n : exec rq/hlt C (rp/hlt z) C.
+exec/rst : exec rq/rst C (rp/ok z) C.

@@ -1,0 +1,24 @@
+step/ls : step k/ls (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K (s N) E).
+step/save : step k/save (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K (s N) E).
+multi : nat -> cmd -> world -> world -> type.
+multi/z : multi z K W W.
+multi/s : step K W W' -> multi N K W' W'' -> multi (s N) K W W''.
+seq : cmd -> cmd -> world -> world -> type.
+seq/ok : step K1 W W1 -> step K2 W1 W2 -> seq K1 K2 W W2.
+seq3 : cmd -> cmd -> cmd -> world -> world -> type.
+seq3/ok : step K1 W W1 -> step K2 W1 W2 -> step K3 W2 W3 -> seq3 K1 K2 K3 W W3.
+obs_step : world -> world -> type.
+obs_step/ok : can_obs N T -> obs_step (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K N e/obs).
+rev_step : world -> world -> type.
+rev_step/ok : can_rev F -> rev_step (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K N e/rev).
+iso_step : world -> world -> type.
+iso_step/ok : can_iso T -> iso_step (w/mk C T SU PL EN F K N E) (w/mk C T su/sleep PL EN F K N e/iso).
+catch_step : world -> world -> type.
+catch_step/ok : can_catch PL EN SU -> catch_step (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K N e/catch).
+esc_step : world -> world -> type.
+esc_step/ok : escape_cell PL -> esc_step (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K N e/esc).
+preserve_cpu : cmd -> world -> world -> type.
+preserve_cpu/ls : step k/ls W W' -> preserve_cpu k/ls W W'.
+preserve_cpu/st : step k/nn W W' -> preserve_cpu k/nn W W'.
+bump_n : world -> world -> type.
+bump_n/ok : add N (s z) N' -> bump_n (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K N' E).

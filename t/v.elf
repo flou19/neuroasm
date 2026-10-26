@@ -1,0 +1,11 @@
+byte = nat.
+addr = nat.
+nvec : nat -> type.
+nvnil : nvec z.
+nvcons : byte -> nvec N -> nvec (s N).
+nth : nat -> nvec N -> byte -> type.
+nth/z : nth z (nvcons B V) B.
+nth/s : nth I V B -> nth (s I) (nvcons _ V) B.
+upd : nat -> byte -> nvec N -> nvec N -> type.
+upd/z : upd z B (nvcons _ V) (nvcons B V).
+upd/s : upd I B V V' -> upd (s I) B (nvcons C V) (nvcons C V').

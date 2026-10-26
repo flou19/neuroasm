@@ -1,0 +1,24 @@
+interp : cmd -> world -> world -> type.
+interp/ok : step K W W' -> interp K W W'.
+sound : cmd -> world -> world -> type.
+sound/ok : legal K -> step K W W' -> sound K W W'.
+complete_play : game -> end -> type.
+complete_play/ok : done G E -> adm E -> complete_play G E.
+safe_exec : req -> cpu -> cpu -> type.
+safe_exec/ok : exec R C Rp C' -> safe_exec R C C'.
+world_ok : world -> type.
+world_ok/sleep : inv T su/sleep -> world_ok (w/mk C T su/sleep PL EN F K N E).
+world_ok/hunt : inv T (su/hunt A B) -> world_ok (w/mk C T (su/hunt A B) PL EN F K N E).
+step_ok : cmd -> world -> world -> type.
+step_ok/ok : world_ok W -> step K W W' -> world_ok W' -> step_ok K W W'.
+ending_ok : world -> type.
+ending_ok/esc : term W e/esc -> adm e/esc -> ending_ok W.
+ending_ok/iso : term W e/iso -> adm e/iso -> ending_ok W.
+ending_ok/rev : term W e/rev -> adm e/rev -> ending_ok W.
+ending_ok/obs : term W e/obs -> adm e/obs -> ending_ok W.
+reject_catch : world -> type.
+reject_catch/ok : term W e/catch -> rej e/catch -> reject_catch W.
+total_run : nat -> cpu -> type.
+total_run/ok : run F C C' -> total_run F C.
+bounded : nat -> cpu -> type.
+bounded/ok : run_le F C N -> bounded F C.

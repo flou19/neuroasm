@@ -1,0 +1,7 @@
+.PHONY: t test all
+t:
+	cd t && printf 'set chatter 1\nmake sources.cfg\nquit\n' | twelf-server | tee /tmp/tw.out
+	grep -q '%% OK %%' /tmp/tw.out && echo OK > t/.ok || (rm -f t/.ok; exit 1)
+test: t
+	printf 'app use ["s/n.sml","s/v.sml","s/c.sml","s/g.sml","s/fs.sml","s/nn.sml","s/st.sml","s/io.sml","s/gate.sml","s/t.sml"]; T.go ();\n' | sml
+all: test

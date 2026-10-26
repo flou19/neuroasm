@@ -1,0 +1,28 @@
+game : type.
+g/mk : world -> game.
+legal : cmd -> type.
+legal/rm : legal k/rm.
+legal/run : legal (k/run F).
+legal/iso : legal k/iso.
+legal/col : legal (k/col I).
+legal/rev : legal k/rev.
+legal/mv : legal (k/mv D).
+legal/nn : legal k/nn.
+legal/kill : legal k/kill.
+play : cmd -> game -> game -> type.
+play/ok : legal K -> step K W W' -> play K (g/mk W) (g/mk W').
+done : game -> end -> type.
+done/ok : term W E -> done (g/mk W) E.
+adm : end -> type.
+adm/esc : adm e/esc.
+adm/iso : adm e/iso.
+adm/rev : adm e/rev.
+adm/obs : adm e/obs.
+rej : end -> type.
+rej/catch : rej e/catch.
+complete : game -> type.
+complete/ok : done G E -> adm E -> complete G.
+sound_run : nat -> cpu -> type.
+sound_run/ok : safe F C -> sound_run F C.
+sound_wake : threat -> su -> type.
+sound_wake/ok : inv T SU -> sound_wake T SU.

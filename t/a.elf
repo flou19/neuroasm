@@ -1,0 +1,24 @@
+op : type.
+o/nop : op.
+o/mov : nat -> nat -> op.
+o/ldi : nat -> nat -> op.
+o/add : nat -> nat -> op.
+o/sub : nat -> nat -> op.
+o/jmp : nat -> op.
+o/hlt : op.
+o/inc : nat -> op.
+o/dec : nat -> op.
+enc : op -> nvec N -> type.
+enc/nop : enc o/nop (nvcons z nvnil).
+enc/hlt : enc o/hlt (nvcons (s (s (s (s (s (s (s (s (s (s (s (s (s z))))))))))))) nvnil).
+enc/mov : enc (o/mov Rd Rs) (nvcons (s z) (nvcons Rs (nvcons Rd nvnil))).
+enc/ldi : enc (o/ldi Rd Imm) (nvcons (s (s z)) (nvcons Rd (nvcons Imm nvnil))).
+enc/add : enc (o/add Rd Rs) (nvcons (s (s (s z))) (nvcons Rs (nvcons Rd nvnil))).
+enc/jmp : enc (o/jmp T) (nvcons (s (s (s (s (s (s (s (s z)))))))) (nvcons T nvnil)).
+enc/inc : enc (o/inc Rd) (nvcons (s (s (s (s (s (s (s (s (s (s (s (s (s (s z)))))))))))))) (nvcons Rd nvnil)).
+decod : byte -> op -> type.
+decod/nop : decod z o/nop.
+decod/hlt : decod (s (s (s (s (s (s (s (s (s (s (s (s (s z))))))))))))) o/hlt.
+decod/mov : decod (s z) (o/mov z (s z)).
+round : op -> type.
+round/ok : enc O V -> nth z V B -> decod B O -> round O.

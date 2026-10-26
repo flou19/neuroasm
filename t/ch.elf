@@ -1,0 +1,18 @@
+chase : pos -> pos -> pos -> type.
+chase/stay : poseq EN PL -> chase PL EN EN.
+chase/step : move EN D EN' -> dist EN' PL D0 -> dist EN PL D1 -> le D0 D1 -> chase PL EN EN'.
+chase_fuel : nat -> pos -> pos -> pos -> type.
+chase_fuel/z : chase_fuel z PL EN EN.
+chase_fuel/s : chase PL EN EN1 -> chase_fuel N PL EN1 EN2 -> chase_fuel (s N) PL EN EN2.
+closed : pos -> pos -> type.
+closed/ok : poseq PL EN -> closed PL EN.
+escape_cell : pos -> type.
+escape_cell/ok : escape_cell (pos/mk (s (s (s (s (s (s z)))))) (s (s (s (s (s (s z))))))).
+toward : pos -> pos -> dir -> type.
+toward/n : lt Y2 Y1 -> toward (pos/mk X1 Y1) (pos/mk X2 Y2) d/n.
+toward/s : lt Y1 Y2 -> toward (pos/mk X1 Y1) (pos/mk X2 Y2) d/s.
+toward/w : lt X2 X1 -> toward (pos/mk X1 Y1) (pos/mk X2 Y2) d/w.
+toward/e : lt X1 X2 -> toward (pos/mk X1 Y1) (pos/mk X2 Y2) d/e.
+hunt_tick : su -> pos -> su -> type.
+hunt_tick/sleep : hunt_tick su/sleep PL su/sleep.
+hunt_tick/hunt : chase PL EN EN' -> hunt_tick (su/hunt EN PL) PL (su/hunt EN' PL).

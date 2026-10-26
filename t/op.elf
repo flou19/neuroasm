@@ -1,0 +1,24 @@
+binop : type.
+bn/add : binop.
+bn/sub : binop.
+bn/and : binop.
+bn/or : binop.
+bn/xor : binop.
+eval_bin : binop -> nat -> nat -> nat -> type.
+eval_bin/add : add A B C -> eval_bin bn/add A B C.
+eval_bin/sub : sub A B C -> eval_bin bn/sub A B C.
+eval_bin/and : mul A B C -> eval_bin bn/and A B C.
+unop : type.
+un/inc : unop.
+un/dec : unop.
+un/neg : unop.
+eval_un : unop -> nat -> nat -> type.
+eval_un/inc : add A (s z) B -> eval_un un/inc A B.
+eval_un/dec : sub A (s z) B -> eval_un un/dec A B.
+eval_un/neg : sub z A B -> eval_un un/neg A B.
+alu : binop -> regid -> regid -> regs -> regs -> type.
+alu/ok : getr Rs R Vs -> getr Rd R Vd -> eval_bin Op Vd Vs V' -> setr Rd V' R R' -> alu Op Rd Rs R R'.
+flag_z : nat -> nat -> type.
+flag_z/ok : isz V Z -> flag_z V Z.
+cmp_op : regid -> regid -> regs -> nat -> type.
+cmp_op/ok : getr Rs R Vs -> getr Rd R Vd -> sub Vd Vs D -> flag_z D Z -> cmp_op Rd Rs R Z.

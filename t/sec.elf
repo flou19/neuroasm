@@ -1,0 +1,36 @@
+level : type.
+lv/kern : level.
+lv/user : level.
+lv/guest : level.
+lv/ent : level.
+priv : level -> level -> type.
+priv/refl : priv L L.
+priv/ku : priv lv/kern lv/user.
+priv/ug : priv lv/user lv/guest.
+priv/ke : priv lv/kern lv/ent.
+priv/trans : priv A B -> priv B C -> priv A C.
+ctx : type.
+ctx/mk : level -> nat -> ctx.
+isolate_ctx : ctx -> ctx -> type.
+isolate_ctx/ok : isolate_ctx (ctx/mk L N) (ctx/mk lv/user N).
+elevate : ctx -> level -> ctx -> type.
+elevate/ok : priv L L' -> elevate (ctx/mk L N) L' (ctx/mk L' N).
+cap : type.
+cap/rm : cap.
+cap/iso : cap.
+cap/rev : cap.
+cap/run : cap.
+holds : ctx -> cap -> type.
+holds/kern_rm : holds (ctx/mk lv/kern N) cap/rm.
+holds/kern_iso : holds (ctx/mk lv/kern N) cap/iso.
+holds/user_run : holds (ctx/mk lv/user N) cap/run.
+holds/ent_rev : holds (ctx/mk lv/ent N) cap/rev.
+auth : ctx -> cmd -> type.
+auth/rm : holds Cx cap/rm -> auth Cx k/rm.
+auth/iso : holds Cx cap/iso -> auth Cx k/iso.
+auth/run : holds Cx cap/run -> auth Cx (k/run F).
+auth/rev : holds Cx cap/rev -> auth Cx k/rev.
+auth/mv : auth Cx (k/mv D).
+auth/nn : auth Cx k/nn.
+auth/col : auth Cx (k/col I).
+auth/ls : auth Cx k/ls.

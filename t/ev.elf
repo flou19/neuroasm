@@ -1,0 +1,37 @@
+ev : type.
+ev/boot : ev.
+ev/step : nat -> ev.
+ev/halt : ev.
+ev/threat : nat -> ev.
+ev/wake : ev.
+ev/sleep : ev.
+ev/move : pos -> pos -> ev.
+ev/catch : ev.
+ev/esc : ev.
+ev/nn : ev.
+ev/rm : path -> ev.
+ev/col : nat -> ev.
+ev/rev : ev.
+ev/iso : ev.
+elog : type.
+elg/nil : elog.
+elg/c : ev -> elog -> elog.
+elog_len : elog -> nat -> type.
+elog_len/z : elog_len elg/nil z.
+elog_len/s : elog_len L N -> elog_len (elg/c E L) (s N).
+emit : ev -> elog -> elog -> type.
+emit/ok : emit E L (elg/c E L).
+has_ev : ev -> elog -> type.
+has_ev/h : has_ev E (elg/c E L).
+has_ev/t : has_ev E L -> has_ev E (elg/c F L).
+cmd_ev : cmd -> ev -> type.
+cmd_ev/rm : cmd_ev k/rm (ev/rm P).
+cmd_ev/run : cmd_ev (k/run F) (ev/step F).
+cmd_ev/iso : cmd_ev k/iso ev/iso.
+cmd_ev/col : cmd_ev (k/col I) (ev/col I).
+cmd_ev/rev : cmd_ev k/rev ev/rev.
+cmd_ev/mv : cmd_ev (k/mv D) (ev/move PL PL').
+cmd_ev/nn : cmd_ev k/nn ev/nn.
+cmd_ev/kill : cmd_ev k/kill ev/sleep.
+log_cmd : cmd -> elog -> elog -> type.
+log_cmd/ok : cmd_ev K E -> emit E L L' -> log_cmd K L L'.

@@ -1,0 +1,19 @@
+sim : nat -> world -> world -> type.
+sim/z : sim z W W.
+sim/s : step K W W' -> sim N W' W'' -> sim (s N) W W''.
+bisim : cpu -> cpu -> type.
+bisim/ok : cycles C N -> cycles C' N -> bisim C C'.
+refine : cmd -> cmd -> type.
+refine/run : le F F' -> refine (k/run F) (k/run F').
+mono_cy : nat -> cpu -> cpu -> type.
+mono_cy/ok : run F C C' -> cycles C N -> cycles C' N' -> le N N' -> mono_cy F C C'.
+no_hang : nat -> cpu -> type.
+no_hang/ok : run F C C' -> no_hang F C.
+sep : threat -> su -> frag -> type.
+sep/ok : inv T SU -> sep T SU F.
+reach : end -> world -> type.
+reach/ok : term W E -> reach E W.
+preserve_halt : cpu -> nat -> type.
+preserve_halt/ok : halted C -> run F C C -> preserve_halt C F.
+congruent : world -> world -> type.
+congruent/ok : poseq PL PL' -> congruent (w/mk C T SU PL EN F K N E) (w/mk C' T' SU' PL' EN' F' K' N' E').

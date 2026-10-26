@@ -1,0 +1,28 @@
+nat : type.
+z : nat.
+s : nat -> nat.
+add : nat -> nat -> nat -> type.
+%mode add +A +B -C.
+add/z : add z N N.
+add/s : add N M K -> add (s N) M (s K).
+%worlds () (add A B C).
+%total A (add A B C).
+sub : nat -> nat -> nat -> type.
+sub/z : sub z N z.
+sub/z2 : sub (s N) z (s N).
+sub/s : sub N M K -> sub (s N) (s M) K.
+mul : nat -> nat -> nat -> type.
+mul/z : mul z N z.
+mul/s : mul N M K -> add M K L -> mul (s N) M L.
+le : nat -> nat -> type.
+le/z : le z N.
+le/s : le N M -> le (s N) (s M).
+lt : nat -> nat -> type.
+lt/z : lt z (s N).
+lt/s : lt N M -> lt (s N) (s M).
+eq : nat -> nat -> type.
+eq/z : eq z z.
+eq/s : eq N M -> eq (s N) (s M).
+isz : nat -> nat -> type.
+isz/z : isz z (s z).
+isz/s : isz (s N) z.

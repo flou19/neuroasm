@@ -1,0 +1,18 @@
+trans : world -> world -> type.
+trans/cmd : step K W W' -> trans W W'.
+trans/chase : hunt_tick SU PL SU' ->
+  trans (w/mk C T SU PL EN F K N E) (w/mk C T SU' PL EN F K N E).
+trans/decay : decay T T' ->
+  trans (w/mk C T su/sleep PL EN F K N E) (w/mk C T' su/sleep PL EN F K N E).
+trans/obs : obs_step W W' -> trans W W'.
+trans/catch : catch_step W W' -> trans W W'.
+trans/esc : esc_step W W' -> trans W W'.
+star : world -> world -> type.
+star/refl : star W W.
+star/step : trans W W' -> star W' W'' -> star W W''.
+reachable : world -> end -> type.
+reachable/ok : star W W' -> term W' E -> reachable W E.
+invariant : world -> type.
+invariant/ok : world_ok W -> invariant W.
+preserve : world -> world -> type.
+preserve/ok : invariant W -> trans W W' -> invariant W' -> preserve W W'.

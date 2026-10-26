@@ -1,0 +1,46 @@
+end : type.
+e/0 : end.
+e/esc : end.
+e/iso : end.
+e/rev : end.
+e/obs : end.
+e/catch : end.
+world : type.
+w/mk : cpu -> threat -> su -> pos -> pos -> frag -> nat -> nat -> end -> world.
+cmd : type.
+k/ls : cmd.
+k/rm : cmd.
+k/run : nat -> cmd.
+k/iso : cmd.
+k/col : nat -> cmd.
+k/rev : cmd.
+k/mv : dir -> cmd.
+k/nn : cmd.
+k/kill : cmd.
+k/save : cmd.
+step : cmd -> world -> world -> type.
+step/rm : inc T (s (s z)) T' -> wake T' SU SU' ->
+  step k/rm (w/mk C T SU PL EN F K N E) (w/mk C T' SU' PL EN F K (s N) E).
+step/run : run Fuel Cpu Cpu' ->
+  step (k/run Fuel) (w/mk Cpu T SU PL EN F K N E) (w/mk Cpu' T SU PL EN F K (s N) E).
+step/iso : le (s (s z)) Thr ->
+  step k/iso (w/mk C (th/mk Thr) SU PL EN F K N E) (w/mk C (th/mk Thr) su/sleep PL EN F K (s N) e/iso).
+step/col : collect I F F' ->
+  step (k/col I) (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F' K (s N) E).
+step/rev : fcnt F Nf -> le (s (s (s (s (s (s (s (s z)))))))) Nf ->
+  step k/rev (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K (s N) e/rev).
+step/mv : move PL D PL' ->
+  step (k/mv D) (w/mk C T SU PL EN F K N E) (w/mk C T SU PL' EN F (s K) (s N) E).
+step/nn : step k/nn (w/mk C T SU PL EN F K N E) (w/mk C T SU PL EN F K (s N) E).
+step/kill : step k/kill (w/mk C T (su/hunt A B) PL EN F K N E) (w/mk C T su/sleep PL EN F K (s N) E).
+term : world -> end -> type.
+term/esc : term (w/mk C T SU PL EN F K N e/esc) e/esc.
+term/iso : term (w/mk C T SU PL EN F K N e/iso) e/iso.
+term/rev : term (w/mk C T SU PL EN F K N e/rev) e/rev.
+term/obs : term (w/mk C T SU PL EN F K N e/obs) e/obs.
+term/catch : term (w/mk C T SU PL EN F K N e/catch) e/catch.
+safe : nat -> cpu -> type.
+safe/ok : run F C C' -> cycles C' N -> le N F -> safe F C.
+inv : threat -> su -> type.
+inv/s : lt T (s (s (s z))) -> inv (th/mk T) su/sleep.
+inv/h : le (s (s (s z))) T -> inv (th/mk T) (su/hunt A B).

@@ -1,0 +1,28 @@
+theorem_run_bound : nat -> cpu -> type.
+theorem_run_bound/ok : run_le F C N -> theorem_run_bound F C.
+theorem_halt_idem : cpu -> type.
+theorem_halt_idem/ok : run_halt_id F C -> theorem_halt_idem C.
+theorem_no_hang : nat -> cpu -> type.
+theorem_no_hang/ok : no_hang F C -> theorem_no_hang F C.
+theorem_wake_sound : threat -> su -> type.
+theorem_wake_sound/ok : sound_wake T SU -> theorem_wake_sound T SU.
+theorem_complete : game -> type.
+theorem_complete/ok : complete G -> theorem_complete G.
+theorem_obs : nat -> threat -> type.
+theorem_obs/ok : can_obs N T -> theorem_obs N T.
+theorem_rev : frag -> type.
+theorem_rev/ok : can_rev F -> theorem_rev F.
+theorem_iso : threat -> type.
+theorem_iso/ok : can_iso T -> theorem_iso T.
+theorem_chase_fuel : nat -> pos -> pos -> type.
+theorem_chase_fuel/ok : chase_fuel F PL EN EN' -> theorem_chase_fuel F PL EN.
+theorem_safe : nat -> cpu -> type.
+theorem_safe/ok : safe F C -> theorem_safe F C.
+theorem_mono : nat -> cpu -> type.
+theorem_mono/ok : run_mono F C -> theorem_mono F C.
+theorem_progress : world -> world -> type.
+theorem_progress/ok : progress W W' -> theorem_progress W W'.
+theorem_fuel : nat -> nat -> type.
+theorem_fuel/ok : fuel_bound F N -> theorem_fuel F N.
+theorem_sep : threat -> su -> frag -> type.
+theorem_sep/ok : sep T SU F -> theorem_sep T SU F.

@@ -1,0 +1,14 @@
+cpu_eq : cpu -> cpu -> type.
+cpu_eq/ok : cpu_eq C C.
+world_eq : world -> world -> type.
+world_eq/ok : world_eq W W.
+cong_step : cmd -> world -> world -> world -> world -> type.
+cong_step/ok : world_eq W1 W2 -> step K W1 W1' -> step K W2 W2' -> world_eq W1' W2' ->
+  cong_step K W1 W1' W2 W2'.
+det_step : cmd -> world -> world -> world -> type.
+det_step/ok : step K W W1 -> step K W W2 -> world_eq W1 W2 -> det_step K W W1 W2.
+det_run : nat -> cpu -> cpu -> cpu -> type.
+det_run/ok : run F C C1 -> run F C C2 -> cpu_eq C1 C2 -> det_run F C C1 C2.
+commute_rm_nn : world -> world -> type.
+commute_rm_nn/ok : step k/rm W W1 -> step k/nn W1 W2 ->
+  step k/nn W Wa -> step k/rm Wa Wb -> world_eq W2 Wb -> commute_rm_nn W W2.

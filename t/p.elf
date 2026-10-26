@@ -1,0 +1,22 @@
+trace : type.
+tr/nil : trace.
+tr/c : cpu -> trace -> trace.
+trace_run : nat -> cpu -> trace -> cpu -> type.
+trace_run/z : trace_run z C (tr/c C tr/nil) C.
+trace_run/h : halted C -> trace_run (s N) C (tr/c C tr/nil) C.
+trace_run/s : step1 C C' -> trace_run N C' T C'' -> trace_run (s N) C (tr/c C T) C''.
+mood : type.
+m/0 : mood.
+m/1 : mood.
+m/2 : mood.
+m/3 : mood.
+m/4 : mood.
+tmood : threat -> mood -> type.
+tmood/0 : lt T (s z) -> tmood (th/mk T) m/0.
+tmood/1 : eq T (s z) -> tmood (th/mk T) m/1.
+tmood/2 : eq T (s (s z)) -> tmood (th/mk T) m/2.
+tmood/3 : le (s (s (s z))) T -> le T (s (s (s (s z)))) -> tmood (th/mk T) m/3.
+tmood/4 : lt (s (s (s (s z)))) T -> tmood (th/mk T) m/4.
+decay : threat -> threat -> type.
+decay/ok : sub T (s z) T' -> decay (th/mk T) (th/mk T').
+decay/z : decay (th/mk z) (th/mk z).

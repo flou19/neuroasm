@@ -1,0 +1,17 @@
+neuroasm-game — LF game (Twelf + SML/NJ)
+
+t/  30 modules  formal theory (all loaded via sources.cfg)
+s/  runtime     pure functional REPL + gate
+
+build
+  make -f M t      # twelf → t/.ok
+  make -f M test   # requires t/.ok
+
+play
+  sml → app use [s/…]; Io.main ();
+
+endings
+  ESC ISO REV OBS CATCH
+
+invariant
+  T.go fails without successful Twelf load (Gate)

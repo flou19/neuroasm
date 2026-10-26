@@ -1,0 +1,37 @@
+step1/mov : getm PC M B -> eq B (s z) ->
+  add PC (s z) PC1 -> getm PC1 M Rs -> add PC1 (s z) PC2 -> getm PC2 M Rd ->
+  getr Rs R Vr -> setr Rd Vr R R' -> add PC2 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+step1/ldi : getm PC M B -> eq B (s (s z)) ->
+  add PC (s z) PC1 -> getm PC1 M Rd -> add PC1 (s z) PC2 -> getm PC2 M Imm ->
+  setr Rd Imm R R' -> add PC2 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+step1/add : getm PC M B -> eq B (s (s (s z))) ->
+  add PC (s z) PC1 -> getm PC1 M Rs -> add PC1 (s z) PC2 -> getm PC2 M Rd ->
+  getr Rs R Vs -> getr Rd R Vd -> add Vd Vs V' -> setr Rd V' R R' ->
+  add PC2 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+step1/sub : getm PC M B -> eq B (s (s (s (s z)))) ->
+  add PC (s z) PC1 -> getm PC1 M Rs -> add PC1 (s z) PC2 -> getm PC2 M Rd ->
+  getr Rs R Vs -> getr Rd R Vd -> sub Vd Vs V' -> setr Rd V' R R' ->
+  add PC2 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+step1/jmp : getm PC M B -> eq B (s (s (s (s (s (s (s (s z)))))))) ->
+  add PC (s z) PC1 -> getm PC1 M T -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R F T C' M z).
+step1/inc : getm PC M B -> eq B (s (s (s (s (s (s (s (s (s (s (s (s (s (s z)))))))))))))) ->
+  add PC (s z) PC1 -> getm PC1 M Rd -> getr Rd R V -> add V (s z) V' -> setr Rd V' R R' ->
+  add PC1 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+step1/dec : getm PC M B -> eq B (s (s (s (s (s (s (s (s (s (s (s (s (s (s (s z))))))))))))))) ->
+  add PC (s z) PC1 -> getm PC1 M Rd -> getr Rd R V -> sub V (s z) V' -> setr Rd V' R R' ->
+  add PC1 (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R' F PC' C' M z).
+run_le : nat -> cpu -> nat -> type.
+run_le/ok : run F C C' -> cycles C' N -> le N F -> run_le F C N.
+run_halt_id : nat -> cpu -> type.
+run_halt_id/ok : halted C -> run F C C -> run_halt_id F C.
+run_mono : nat -> cpu -> type.
+run_mono/ok : run F C C' -> cycles C N0 -> cycles C' N1 -> le N0 N1 -> run_mono F C.
+step_inc_cy : cpu -> cpu -> type.
+step_inc_cy/ok : step1 C C' -> cycles C N -> cycles C' (s N) -> step_inc_cy C C'.

@@ -1,0 +1,27 @@
+proc : type.
+pr/mk : nat -> nat -> nat -> proc.
+ptab : type.
+pt/nil : ptab.
+pt/c : proc -> ptab -> ptab.
+pid_of : proc -> nat -> type.
+pid_of/ok : pid_of (pr/mk P N S) P.
+alive : proc -> type.
+alive/ok : alive (pr/mk P N (s S)).
+dead : proc -> type.
+dead/ok : dead (pr/mk P N z).
+find_pid : nat -> ptab -> proc -> type.
+find_pid/h : find_pid P (pt/c (pr/mk P N S) R) (pr/mk P N S).
+find_pid/t : find_pid P R Pr -> find_pid P (pt/c Q R) Pr.
+kill_pid : nat -> ptab -> ptab -> type.
+kill_pid/h : kill_pid P (pt/c (pr/mk P N S) R) (pt/c (pr/mk P N z) R).
+kill_pid/t : kill_pid P R R' -> kill_pid P (pt/c Q R) (pt/c Q R').
+freeze_pid : nat -> ptab -> ptab -> type.
+freeze_pid/h : freeze_pid P (pt/c (pr/mk P N S) R) (pt/c (pr/mk P N z) R).
+freeze_pid/t : freeze_pid P R R' -> freeze_pid P (pt/c Q R) (pt/c Q R').
+sched : ptab -> proc -> type.
+sched/h : alive Pr -> sched (pt/c Pr R) Pr.
+sched/t : sched R Pr -> sched (pt/c Q R) Pr.
+user2_pid : nat -> type.
+user2_pid/ok : user2_pid (s (s (s z))).
+kernel_pid : nat -> type.
+kernel_pid/ok : kernel_pid (s z).

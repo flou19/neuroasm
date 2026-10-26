@@ -1,0 +1,16 @@
+pos : type.
+pos/mk : nat -> nat -> pos.
+dir : type.
+d/n : dir. d/s : dir. d/w : dir. d/e : dir.
+move : pos -> dir -> pos -> type.
+move/n : move (pos/mk X (s Y)) d/n (pos/mk X Y).
+move/s : move (pos/mk X Y) d/s (pos/mk X (s Y)).
+move/w : move (pos/mk (s X) Y) d/w (pos/mk X Y).
+move/e : move (pos/mk X Y) d/e (pos/mk (s X) Y).
+poseq : pos -> pos -> type.
+poseq/ok : poseq (pos/mk X Y) (pos/mk X Y).
+dist : pos -> pos -> nat -> type.
+dist/ok : sub X1 X2 DX -> sub Y1 Y2 DY -> add DX DY D -> dist (pos/mk X1 Y1) (pos/mk X2 Y2) D.
+intercept : pos -> pos -> dir -> pos -> type.
+intercept/ok : move PL D PL' -> dist EN PL' D0 -> dist EN PL D1 -> le D0 D1 ->
+  intercept PL EN D PL'.

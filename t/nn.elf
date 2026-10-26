@@ -1,0 +1,21 @@
+weight = nat.
+bias = nat.
+neuron : type.
+nr/mk : weight -> weight -> bias -> neuron.
+relu : nat -> nat -> type.
+relu/z : relu z z.
+relu/s : relu (s N) (s N).
+dot2 : weight -> weight -> nat -> nat -> nat -> type.
+dot2/ok : mul W1 X1 A -> mul W2 X2 B -> add A B C -> dot2 W1 W2 X1 X2 C.
+fwd : neuron -> nat -> nat -> nat -> type.
+fwd/ok : dot2 W1 W2 X1 X2 D -> add D B S -> relu S Y -> fwd (nr/mk W1 W2 B) X1 X2 Y.
+layer : type.
+ly/nil : layer.
+ly/c : neuron -> layer -> layer.
+fwd_layer : layer -> nat -> nat -> layer -> type.
+fwd_layer/nil : fwd_layer ly/nil X1 X2 ly/nil.
+fwd_layer/c : fwd N X1 X2 Y -> fwd_layer L X1 X2 L' -> fwd_layer (ly/c N L) X1 X2 (ly/c N L').
+threat_in : threat -> nat -> type.
+threat_in/ok : pressure T N -> threat_in T N.
+signal : threat -> nat -> type.
+signal/ok : threat_in T X -> double X D -> signal T D.

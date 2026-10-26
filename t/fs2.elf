@@ -1,0 +1,22 @@
+elist : type.
+el/nil : elist.
+node : type.
+nd/file : nat -> node.
+nd/dir : elist -> node.
+entry : type.
+en/mk : nat -> node -> entry.
+el/c : entry -> elist -> elist.
+lookup : path -> elist -> node -> type.
+lookup/h : lookup (p/cons N p/nil) (el/c (en/mk N Nd) Rest) Nd.
+lookup/t : lookup P Rest Nd -> lookup P (el/c E Rest) Nd.
+rm_path : path -> elist -> elist -> type.
+rm_path/h : rm_path (p/cons N p/nil) (el/c (en/mk N Nd) Rest) Rest.
+rm_path/t : rm_path P Rest Rest' -> rm_path P (el/c E Rest) (el/c E Rest').
+is_sys566 : path -> type.
+is_sys566/ok : is_sys566 (p/cons (s z) p/nil).
+rm_threat : path -> threat -> threat -> type.
+rm_threat/sys : is_sys566 P -> inc T (s (s z)) T' -> rm_threat P T T'.
+rm_threat/other : rm_threat P T T.
+has_frag : frag -> nat -> type.
+has_frag/h : has_frag (fg/cons I F) I.
+has_frag/t : has_frag F I -> has_frag (fg/cons J F) I.

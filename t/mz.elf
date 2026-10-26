@@ -1,0 +1,31 @@
+cell : type.
+cl/wall : cell.
+cl/floor : cell.
+cl/exit : cell.
+cl/entity : cell.
+grid : type.
+gr/nil : grid.
+gr/c : cell -> grid -> grid.
+row : type.
+rw/nil : row.
+rw/c : grid -> row -> row.
+maze : type.
+mz/mk : row -> maze.
+cell_at : nat -> nat -> maze -> cell -> type.
+cell_at/hz : cell_at z z (mz/mk (rw/c (gr/c Cl G) R)) Cl.
+cell_at/hs : cell_at z Y (mz/mk R) Cl -> cell_at z (s Y) (mz/mk (rw/c G R)) Cl.
+cell_at/sz : cell_at X z (mz/mk (rw/c (gr/c _ G) R)) Cl -> cell_at (s X) z (mz/mk (rw/c G R)) Cl.
+walkable : cell -> type.
+walkable/floor : walkable cl/floor.
+walkable/exit : walkable cl/exit.
+walkable/entity : walkable cl/entity.
+can_stand : pos -> maze -> type.
+can_stand/ok : cell_at X Y Mz Cl -> walkable Cl -> can_stand (pos/mk X Y) Mz.
+is_exit : pos -> maze -> type.
+is_exit/ok : cell_at X Y Mz cl/exit -> is_exit (pos/mk X Y) Mz.
+blocked : pos -> maze -> type.
+blocked/ok : cell_at X Y Mz cl/wall -> blocked (pos/mk X Y) Mz.
+move_ok : pos -> dir -> maze -> pos -> type.
+move_ok/ok : move P D P' -> can_stand P' Mz -> move_ok P D Mz P'.
+move_block : pos -> dir -> maze -> type.
+move_block/ok : move P D P' -> blocked P' Mz -> move_block P D Mz.

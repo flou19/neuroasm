@@ -1,0 +1,30 @@
+regid = nat.
+regs : type.
+rg : nvec (s (s (s (s (s (s (s (s z)))))))) -> regs.
+flags : type.
+fl : nvec (s (s (s (s z)))) -> flags.
+mem : type.
+mm : nvec N -> mem.
+cpu : type.
+cpu/mk : regs -> flags -> addr -> nat -> mem -> nat -> cpu.
+getr : regid -> regs -> byte -> type.
+getr/ok : nth I V B -> getr I (rg V) B.
+setr : regid -> byte -> regs -> regs -> type.
+setr/ok : upd I B V V' -> setr I B (rg V) (rg V').
+getm : addr -> mem -> byte -> type.
+getm/ok : nth A V B -> getm A (mm V) B.
+setm : addr -> byte -> mem -> mem -> type.
+setm/ok : upd A B V V' -> setm A B (mm V) (mm V').
+halted : cpu -> type.
+halted/ok : halted (cpu/mk R F PC C M (s z)).
+cycles : cpu -> nat -> type.
+cycles/ok : cycles (cpu/mk R F PC C M H) C.
+step1 : cpu -> cpu -> type.
+step1/hlt : getm PC M B -> eq B (s (s (s (s (s (s (s (s (s (s (s (s (s z))))))))))))) ->
+  add C (s z) C' -> step1 (cpu/mk R F PC C M z) (cpu/mk R F PC C' M (s z)).
+step1/nop : getm PC M B -> eq B z -> add PC (s z) PC' -> add C (s z) C' ->
+  step1 (cpu/mk R F PC C M z) (cpu/mk R F PC' C' M z).
+run : nat -> cpu -> cpu -> type.
+run/z : run z C C.
+run/h : halted C -> run (s N) C C.
+run/s : step1 C C' -> run N C' C'' -> run (s N) C C''.

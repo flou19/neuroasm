@@ -1,0 +1,35 @@
+max : nat -> nat -> nat -> type.
+max/l : le N M -> max N M M.
+max/r : lt M N -> max N M N.
+min : nat -> nat -> nat -> type.
+min/l : le N M -> min N M N.
+min/r : lt M N -> min N M M.
+double : nat -> nat -> type.
+double/ok : add N N M -> double N M.
+triple : nat -> nat -> type.
+triple/ok : double N D -> add D N T -> triple N T.
+succ_le : nat -> type.
+succ_le/ok : le N (s N) -> succ_le N.
+add_comm_z : nat -> type.
+add_comm_z/ok : add z N N -> add_comm_z N.
+add_s_r : nat -> nat -> nat -> type.
+add_s_r/ok : add N M K -> add N (s M) (s K) -> add_s_r N M K.
+mul_z_r : nat -> type.
+mul_z_r/ok : mul N z z -> mul_z_r N.
+mul_s_r : nat -> nat -> nat -> nat -> type.
+mul_s_r/ok : mul N M K -> add K N L -> mul N (s M) L -> mul_s_r N M K L.
+le_refl : nat -> type.
+le_refl/ok : le N N -> le_refl N.
+le_trans : nat -> nat -> nat -> type.
+le_trans/ok : le A B -> le B C -> le A C -> le_trans A B C.
+lt_le : nat -> nat -> type.
+lt_le/ok : lt N M -> le N M -> lt_le N M.
+eq_symm : nat -> nat -> type.
+eq_symm/ok : eq A B -> eq B A -> eq_symm A B.
+eq_trans : nat -> nat -> nat -> type.
+eq_trans/ok : eq A B -> eq B C -> eq A C -> eq_trans A B C.
+isz_decide : nat -> nat -> type.
+isz_decide/z : isz z (s z) -> isz_decide z (s z).
+isz_decide/s : isz (s N) z -> isz_decide (s N) z.
+notz : nat -> type.
+notz/s : notz (s N).

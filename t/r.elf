@@ -1,0 +1,29 @@
+hist : type.
+h/nil : hist.
+h/c : cmd -> hist -> hist.
+hlen : hist -> nat -> type.
+hlen/z : hlen h/nil z.
+hlen/s : hlen H N -> hlen (h/c K H) (s N).
+obs60 : nat -> type.
+obs60/ok : obs60 (s (s (s (s (s (s (s (s (s (s
+  (s (s (s (s (s (s (s (s (s (s
+  (s (s (s (s (s (s (s (s (s (s
+  (s (s (s (s (s (s (s (s (s (s
+  (s (s (s (s (s (s (s (s (s (s
+  (s (s (s (s (s (s (s (s (s (s z)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))).
+can_obs : nat -> threat -> type.
+can_obs/ok : obs60 N -> le T (s z) -> can_obs N (th/mk T).
+can_rev : frag -> type.
+can_rev/ok : fcnt F N -> le (s (s (s (s (s (s (s (s z)))))))) N -> can_rev F.
+can_iso : threat -> type.
+can_iso/ok : le (s (s z)) T -> can_iso (th/mk T).
+can_catch : pos -> pos -> su -> type.
+can_catch/ok : poseq PL EN -> can_catch PL EN (su/hunt A B).
+progress : world -> world -> type.
+progress/n : lt N N' -> progress (w/mk C T SU PL EN F K N E) (w/mk C' T' SU' PL' EN' F' K' N' E').
+fuel_bound : nat -> nat -> type.
+fuel_bound/ok : le N F -> fuel_bound F N.
+halt_stable : cpu -> type.
+halt_stable/ok : halted C -> step1 C C -> halt_stable C.
+compose : cmd -> cmd -> world -> world -> type.
+compose/ok : step K1 W W1 -> step K2 W1 W2 -> compose K1 K2 W W2.

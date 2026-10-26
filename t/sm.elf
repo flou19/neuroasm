@@ -1,0 +1,23 @@
+cfg : type.
+cfg/mk : nat -> nat -> nat -> nat -> cfg.
+cfg_fuel : cfg -> nat -> type.
+cfg_fuel/ok : cfg_fuel (cfg/mk F T M K) F.
+cfg_wake : cfg -> nat -> type.
+cfg_wake/ok : cfg_wake (cfg/mk F T M K) T.
+cfg_maze : cfg -> nat -> type.
+cfg_maze/ok : cfg_maze (cfg/mk F T M K) M.
+default_cfg : cfg -> type.
+default_cfg/ok : default_cfg (cfg/mk
+  (s (s (s (s (s (s (s (s (s (s z))))))))))
+  (s (s (s z)))
+  (s (s (s (s (s (s (s (s z))))))))
+  (s z)).
+snap : type.
+snap/mk : threat -> nat -> frag -> nat -> su -> snap.
+save : world -> snap -> type.
+save/ok : save (w/mk C T SU PL EN F K N E) (snap/mk T N F K SU).
+load : snap -> world -> world -> type.
+load/ok : load (snap/mk T N F K SU) (w/mk C T0 SU0 PL EN F0 K0 N0 E)
+  (w/mk C T SU PL EN F K N E).
+restore_eq : snap -> world -> type.
+restore_eq/ok : load S W W' -> restore_eq S W'.

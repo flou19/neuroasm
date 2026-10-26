@@ -1,0 +1,20 @@
+query : type.
+q/threat : query.
+q/frags : query.
+q/cycles : query.
+q/halted : query.
+q/su : query.
+q/end : query.
+answer : type.
+an/nat : nat -> answer.
+an/bool : nat -> answer.
+an/end : end -> answer.
+an/su : su -> answer.
+ask : query -> world -> answer -> type.
+ask/threat : pressure T N -> ask q/threat (w/mk C T SU PL EN F K Nc E) (an/nat N).
+ask/frags : fcnt F N -> ask q/frags (w/mk C T SU PL EN F K Nc E) (an/nat N).
+ask/cycles : cycles C N -> ask q/cycles (w/mk C T SU PL EN F K Nc E) (an/nat N).
+ask/halted/y : halted C -> ask q/halted (w/mk C T SU PL EN F K Nc E) (an/bool (s z)).
+ask/halted/n : ask q/halted (w/mk C T SU PL EN F K Nc E) (an/bool z).
+ask/su : ask q/su (w/mk C T SU PL EN F K Nc E) (an/su SU).
+ask/end : ask q/end (w/mk C T SU PL EN F K Nc E) (an/end E).
